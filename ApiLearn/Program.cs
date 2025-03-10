@@ -2,6 +2,7 @@ using ApiLearn.Data;
 using ApiLearn.Interfaces;
 using ApiLearn.IRepositories;
 using ApiLearn.Models;
+using ApiLearn.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -61,6 +62,7 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddScoped<IStockRepository, StockRepository>();
 builder.Services.AddScoped<ICommentRepository, CommentRepository>();
+builder.Services.AddScoped<ITokenServicecs, TokenService>();
 
 var app = builder.Build();
 
