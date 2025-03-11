@@ -62,10 +62,5 @@ namespace ApiLearn.IRepositories
 
             return existingComment;
         }
-
-        //public Task<Comment?> UpdateAsync(int id, Comment commentModel)
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }

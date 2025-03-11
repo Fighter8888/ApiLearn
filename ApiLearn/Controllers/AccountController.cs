@@ -13,10 +13,37 @@ namespace ApiLearn.Controllers
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly ITokenServicecs _tokenService;
-        public AccountController(UserManager<AppUser> userManager, ITokenServicecs tokenService)
+        private readonly SignInManager<AppUser> _signInManager;
+        public AccountController(UserManager<AppUser> userManager, ITokenServicecs tokenService, SignInManager<AppUser> signInManager)
         {
             _userManager = userManager;
             _tokenService = tokenService;
+            _signInManager = signInManager;
+        }
+
+        [HttpPost("login")]
+        public async Task<IActionResult> Login( LoginDto loginDto)
+        {
+            
+                if (!ModelState.IsValid)
+                    return BadRequest(ModelState);
+
+                var user = await _userManager.FindByEmailAsync(loginDto.Email);
+                if (user == null)
+                    return Unauthorized("Invalid email");
+
+                var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
+                if (!result.Succeeded)
+                    return Unauthorized("Invalid password");
+
+            return Ok(
+                new NewUserDto
+                {
+                    UserName = user.UserName,
+                    Email = user.Email,
+                    Token = _tokenService.CreateToken(user)
+                }
+            );
         }
 
         [HttpPost("register")]
