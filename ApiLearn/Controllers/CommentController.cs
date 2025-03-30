@@ -33,7 +33,7 @@ namespace ApiLearn.Controllers
             return Ok(commentDto);
         }
 
-        //Get By Id
+        //Get By ID
         [HttpGet("{id:int}")]
         public async Task<IActionResult> GetById([FromRoute] int id)
         {
